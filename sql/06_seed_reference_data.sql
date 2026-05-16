@@ -96,6 +96,7 @@ GO
 -- Role-Permission mapping (RBAC baseline)
 DECLARE @RolePermissionSeed TABLE (
     -- Keep NVARCHAR lengths aligned with security.Role.RoleName and security.Permission.PermissionName.
+    -- This table variable centralizes mappings so one idempotent INSERT can join current Role/Permission records.
     RoleName NVARCHAR(128) NOT NULL,
     PermissionName NVARCHAR(128) NOT NULL,
     PRIMARY KEY (RoleName, PermissionName)
