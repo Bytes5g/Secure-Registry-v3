@@ -54,3 +54,22 @@ GO
 CREATE INDEX IX_core_Person_Name_BirthDate
     ON core.Person(FamilyName, GivenName, BirthDate);
 GO
+
+CREATE TABLE core.Organization (
+    OrganizationId BIGINT IDENTITY(1,1) PRIMARY KEY,
+    OrganizationCode NVARCHAR(64) NOT NULL,
+    OrganizationName NVARCHAR(256) NOT NULL,
+    OrganizationType NVARCHAR(64) NOT NULL,
+    ParentOrganizationId BIGINT NULL,
+    LocationId BIGINT NULL,
+    CreatedAt DATETIME2(3) NOT NULL CONSTRAINT DF_core_Organization_CreatedAt DEFAULT SYSUTCDATETIME(),
+    UpdatedAt DATETIME2(3) NULL,
+    CONSTRAINT UQ_core_Organization_OrganizationCode UNIQUE (OrganizationCode),
+    CONSTRAINT FK_core_Organization_Parent FOREIGN KEY (ParentOrganizationId) REFERENCES core.Organization(OrganizationId),
+    CONSTRAINT FK_core_Organization_Location FOREIGN KEY (LocationId) REFERENCES core.Location(LocationId)
+);
+GO
+
+CREATE INDEX IX_core_Organization_Name
+    ON core.Organization(OrganizationName);
+GO

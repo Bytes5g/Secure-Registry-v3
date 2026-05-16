@@ -64,3 +64,18 @@ GO
 CREATE INDEX IX_corrections_Booking_BookedAt_ReleasedAt
     ON corrections.Booking(BookedAt, ReleasedAt);
 GO
+
+ALTER TABLE corrections.Booking
+    ADD ArrestActionId BIGINT NULL,
+        JudgmentId BIGINT NULL,
+        CommitmentOrderNumber NVARCHAR(64) NULL,
+        CommitmentBasis NVARCHAR(256) NULL;
+GO
+
+ALTER TABLE corrections.Booking
+    ADD CONSTRAINT FK_corrections_Booking_ArrestAction FOREIGN KEY (ArrestActionId) REFERENCES enforcement.ArrestAction(ArrestActionId);
+GO
+
+ALTER TABLE corrections.Booking
+    ADD CONSTRAINT FK_corrections_Booking_Judgment FOREIGN KEY (JudgmentId) REFERENCES justice.Judgment(JudgmentId);
+GO

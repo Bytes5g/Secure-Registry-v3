@@ -33,6 +33,24 @@ IF NOT EXISTS (SELECT 1 FROM security.Role WHERE RoleName = N'CorrectionsOfficer
     VALUES (N'CorrectionsOfficer', N'Booking and inmate supervision', 1);
 GO
 
+-- Organizations (Core)
+IF NOT EXISTS (SELECT 1 FROM core.Organization WHERE OrganizationCode = N'MOI')
+    INSERT INTO core.Organization (OrganizationCode, OrganizationName, OrganizationType)
+    VALUES (N'MOI', N'وزارة الداخلية', N'جهة سيادية');
+
+IF NOT EXISTS (SELECT 1 FROM core.Organization WHERE OrganizationCode = N'PPO')
+    INSERT INTO core.Organization (OrganizationCode, OrganizationName, OrganizationType)
+    VALUES (N'PPO', N'النيابة العامة', N'جهة عدلية');
+
+IF NOT EXISTS (SELECT 1 FROM core.Organization WHERE OrganizationCode = N'SJC')
+    INSERT INTO core.Organization (OrganizationCode, OrganizationName, OrganizationType)
+    VALUES (N'SJC', N'السلطة القضائية', N'جهة قضائية');
+
+IF NOT EXISTS (SELECT 1 FROM core.Organization WHERE OrganizationCode = N'PRS')
+    INSERT INTO core.Organization (OrganizationCode, OrganizationName, OrganizationType)
+    VALUES (N'PRS', N'مصلحة السجون', N'جهة تنفيذية');
+GO
+
 -- Permissions (Security)
 IF NOT EXISTS (SELECT 1 FROM security.Permission WHERE PermissionName = N'incident.read')
     INSERT INTO security.Permission (PermissionName, PermissionDescription)
@@ -61,36 +79,170 @@ GO
 
 -- Action dictionary baseline (inspired by v2 sys_action_types governance pattern)
 IF NOT EXISTS (SELECT 1 FROM security.ActionType WHERE ActionCode = N'open')
-    INSERT INTO security.ActionType (ActionCode, ActionNameAr, ActionNameEn, SortOrder)
-    VALUES (N'open', N'فتح', N'Open', 10);
+    INSERT INTO security.ActionType (ActionCode, ActionName, SortOrder)
+    VALUES (N'open', N'فتح', 10);
 
 IF NOT EXISTS (SELECT 1 FROM security.ActionType WHERE ActionCode = N'view')
-    INSERT INTO security.ActionType (ActionCode, ActionNameAr, ActionNameEn, SortOrder)
-    VALUES (N'view', N'عرض', N'View', 20);
+    INSERT INTO security.ActionType (ActionCode, ActionName, SortOrder)
+    VALUES (N'view', N'عرض', 20);
 
 IF NOT EXISTS (SELECT 1 FROM security.ActionType WHERE ActionCode = N'create')
-    INSERT INTO security.ActionType (ActionCode, ActionNameAr, ActionNameEn, SortOrder)
-    VALUES (N'create', N'إضافة', N'Create', 30);
+    INSERT INTO security.ActionType (ActionCode, ActionName, SortOrder)
+    VALUES (N'create', N'إضافة', 30);
 
 IF NOT EXISTS (SELECT 1 FROM security.ActionType WHERE ActionCode = N'update')
-    INSERT INTO security.ActionType (ActionCode, ActionNameAr, ActionNameEn, SortOrder)
-    VALUES (N'update', N'تعديل', N'Update', 40);
+    INSERT INTO security.ActionType (ActionCode, ActionName, SortOrder)
+    VALUES (N'update', N'تعديل', 40);
 
 IF NOT EXISTS (SELECT 1 FROM security.ActionType WHERE ActionCode = N'approve')
-    INSERT INTO security.ActionType (ActionCode, ActionNameAr, ActionNameEn, SortOrder)
-    VALUES (N'approve', N'اعتماد', N'Approve', 50);
+    INSERT INTO security.ActionType (ActionCode, ActionName, SortOrder)
+    VALUES (N'approve', N'اعتماد', 50);
 
 IF NOT EXISTS (SELECT 1 FROM security.ActionType WHERE ActionCode = N'reject')
-    INSERT INTO security.ActionType (ActionCode, ActionNameAr, ActionNameEn, SortOrder)
-    VALUES (N'reject', N'رفض', N'Reject', 60);
+    INSERT INTO security.ActionType (ActionCode, ActionName, SortOrder)
+    VALUES (N'reject', N'رفض', 60);
 
 IF NOT EXISTS (SELECT 1 FROM security.ActionType WHERE ActionCode = N'export')
-    INSERT INTO security.ActionType (ActionCode, ActionNameAr, ActionNameEn, SortOrder)
-    VALUES (N'export', N'تصدير', N'Export', 70);
+    INSERT INTO security.ActionType (ActionCode, ActionName, SortOrder)
+    VALUES (N'export', N'تصدير', 70);
 
 IF NOT EXISTS (SELECT 1 FROM security.ActionType WHERE ActionCode = N'restore')
-    INSERT INTO security.ActionType (ActionCode, ActionNameAr, ActionNameEn, SortOrder)
-    VALUES (N'restore', N'استعادة', N'Restore', 80);
+    INSERT INTO security.ActionType (ActionCode, ActionName, SortOrder)
+    VALUES (N'restore', N'استعادة', 80);
+GO
+
+-- Governance catalogs
+IF NOT EXISTS (SELECT 1 FROM governance.LegalInstrumentType WHERE TypeCode = N'CONSTITUTION')
+    INSERT INTO governance.LegalInstrumentType (TypeCode, TypeName)
+    VALUES (N'CONSTITUTION', N'دستور');
+
+IF NOT EXISTS (SELECT 1 FROM governance.LegalInstrumentType WHERE TypeCode = N'LAW')
+    INSERT INTO governance.LegalInstrumentType (TypeCode, TypeName)
+    VALUES (N'LAW', N'قانون');
+
+IF NOT EXISTS (SELECT 1 FROM governance.LegalInstrumentType WHERE TypeCode = N'REGULATION')
+    INSERT INTO governance.LegalInstrumentType (TypeCode, TypeName)
+    VALUES (N'REGULATION', N'لائحة');
+
+IF NOT EXISTS (SELECT 1 FROM governance.LegalInstrumentType WHERE TypeCode = N'PROCEDURE')
+    INSERT INTO governance.LegalInstrumentType (TypeCode, TypeName)
+    VALUES (N'PROCEDURE', N'إجراء');
+
+IF NOT EXISTS (SELECT 1 FROM governance.NationalSecurityDomain WHERE DomainCode = N'COUNTER_TERROR')
+    INSERT INTO governance.NationalSecurityDomain (DomainCode, DomainName, DomainDescription)
+    VALUES (N'COUNTER_TERROR', N'مكافحة الإرهاب', N'حماية الدولة والمجتمع من التنظيمات والأعمال الإرهابية');
+
+IF NOT EXISTS (SELECT 1 FROM governance.NationalSecurityDomain WHERE DomainCode = N'CYBER_SECURITY')
+    INSERT INTO governance.NationalSecurityDomain (DomainCode, DomainName, DomainDescription)
+    VALUES (N'CYBER_SECURITY', N'الأمن السيبراني', N'حماية البنية المعلوماتية والأنظمة من الاختراق والتخريب');
+
+IF NOT EXISTS (SELECT 1 FROM governance.NationalSecurityDomain WHERE DomainCode = N'ORGANIZED_CRIME')
+    INSERT INTO governance.NationalSecurityDomain (DomainCode, DomainName, DomainDescription)
+    VALUES (N'ORGANIZED_CRIME', N'الجريمة المنظمة', N'مكافحة الشبكات الإجرامية والاتجار والتهريب');
+
+IF NOT EXISTS (SELECT 1 FROM governance.ThreatCategory WHERE ThreatCategoryCode = N'TERROR_CELL')
+    INSERT INTO governance.ThreatCategory (DomainId, ThreatCategoryCode, ThreatCategoryName)
+    SELECT d.DomainId, N'TERROR_CELL', N'خلايا إرهابية'
+    FROM governance.NationalSecurityDomain d
+    WHERE d.DomainCode = N'COUNTER_TERROR';
+
+IF NOT EXISTS (SELECT 1 FROM governance.ThreatCategory WHERE ThreatCategoryCode = N'MALWARE')
+    INSERT INTO governance.ThreatCategory (DomainId, ThreatCategoryCode, ThreatCategoryName)
+    SELECT d.DomainId, N'MALWARE', N'برمجيات خبيثة'
+    FROM governance.NationalSecurityDomain d
+    WHERE d.DomainCode = N'CYBER_SECURITY';
+
+IF NOT EXISTS (SELECT 1 FROM governance.ThreatCategory WHERE ThreatCategoryCode = N'TRAFFICKING')
+    INSERT INTO governance.ThreatCategory (DomainId, ThreatCategoryCode, ThreatCategoryName)
+    SELECT d.DomainId, N'TRAFFICKING', N'شبكات تهريب واتجار'
+    FROM governance.NationalSecurityDomain d
+    WHERE d.DomainCode = N'ORGANIZED_CRIME';
+
+IF NOT EXISTS (SELECT 1 FROM governance.Threat WHERE ThreatCode = N'EXPLOSIVE_PLOT')
+    INSERT INTO governance.Threat (ThreatCategoryId, ThreatCode, ThreatName, ThreatDescription, SeverityLevel)
+    SELECT c.ThreatCategoryId, N'EXPLOSIVE_PLOT', N'مخطط تفجير', N'تخطيط أو تجهيز أو تمويل تفجير أو عمل إرهابي', 10
+    FROM governance.ThreatCategory c
+    WHERE c.ThreatCategoryCode = N'TERROR_CELL';
+
+IF NOT EXISTS (SELECT 1 FROM governance.Threat WHERE ThreatCode = N'CRITICAL_SYSTEM_INTRUSION')
+    INSERT INTO governance.Threat (ThreatCategoryId, ThreatCode, ThreatName, ThreatDescription, SeverityLevel)
+    SELECT c.ThreatCategoryId, N'CRITICAL_SYSTEM_INTRUSION', N'اختراق بنية حرجة', N'اختراق أو تعطيل أنظمة معلوماتية سيادية أو حرجة', 9
+    FROM governance.ThreatCategory c
+    WHERE c.ThreatCategoryCode = N'MALWARE';
+
+IF NOT EXISTS (SELECT 1 FROM governance.Threat WHERE ThreatCode = N'CROSS_BORDER_TRAFFICKING')
+    INSERT INTO governance.Threat (ThreatCategoryId, ThreatCode, ThreatName, ThreatDescription, SeverityLevel)
+    SELECT c.ThreatCategoryId, N'CROSS_BORDER_TRAFFICKING', N'تهريب عابر للحدود', N'نشاط منظم لنقل أشخاص أو أسلحة أو أموال بطرق غير مشروعة', 8
+    FROM governance.ThreatCategory c
+    WHERE c.ThreatCategoryCode = N'TRAFFICKING';
+
+IF NOT EXISTS (SELECT 1 FROM governance.LegalInstrument WHERE InstrumentNumber = N'الدستور-1')
+    INSERT INTO governance.LegalInstrument (LegalInstrumentTypeId, InstrumentNumber, InstrumentName, IssuingAuthorityId)
+    SELECT t.LegalInstrumentTypeId, N'الدستور-1', N'الدستور', o.OrganizationId
+    FROM governance.LegalInstrumentType t
+    CROSS JOIN core.Organization o
+    WHERE t.TypeCode = N'CONSTITUTION'
+      AND o.OrganizationCode = N'SJC';
+
+IF NOT EXISTS (SELECT 1 FROM governance.LegalInstrument WHERE InstrumentNumber = N'قانون-الأمن-1')
+    INSERT INTO governance.LegalInstrument (LegalInstrumentTypeId, InstrumentNumber, InstrumentName, IssuingAuthorityId)
+    SELECT t.LegalInstrumentTypeId, N'قانون-الأمن-1', N'قانون حماية الأمن القومي', o.OrganizationId
+    FROM governance.LegalInstrumentType t
+    CROSS JOIN core.Organization o
+    WHERE t.TypeCode = N'LAW'
+      AND o.OrganizationCode = N'MOI';
+
+IF NOT EXISTS (SELECT 1 FROM governance.LegalArticle WHERE ArticleNumber = N'15'
+    AND LegalInstrumentId = (SELECT TOP 1 LegalInstrumentId FROM governance.LegalInstrument WHERE InstrumentNumber = N'قانون-الأمن-1'))
+    INSERT INTO governance.LegalArticle (LegalInstrumentId, ArticleNumber, ArticleTitle, ArticleText)
+    SELECT i.LegalInstrumentId, N'15', N'أعمال تهدد الأمن القومي', N'تحدد هذه المادة صور الأعمال الماسة بالأمن القومي وإجراءات مواجهتها.'
+    FROM governance.LegalInstrument i
+    WHERE i.InstrumentNumber = N'قانون-الأمن-1';
+
+IF NOT EXISTS (
+    SELECT 1
+    FROM governance.AuthorityJurisdiction aj
+    JOIN core.Organization o ON o.OrganizationId = aj.OrganizationId
+    JOIN governance.NationalSecurityDomain d ON d.DomainId = aj.DomainId
+    WHERE o.OrganizationCode = N'MOI'
+      AND d.DomainCode = N'COUNTER_TERROR'
+)
+    INSERT INTO governance.AuthorityJurisdiction (OrganizationId, DomainId, ResponsibilityName, ResponsibilityDetails)
+    SELECT o.OrganizationId, d.DomainId, N'ضبط واستدلال', N'اختصاص جمع المعلومات والاستدلال الأولي والقبض وفق القانون'
+    FROM core.Organization o
+    CROSS JOIN governance.NationalSecurityDomain d
+    WHERE o.OrganizationCode = N'MOI'
+      AND d.DomainCode = N'COUNTER_TERROR';
+
+IF NOT EXISTS (
+    SELECT 1
+    FROM governance.AuthorityJurisdiction aj
+    JOIN core.Organization o ON o.OrganizationId = aj.OrganizationId
+    JOIN governance.NationalSecurityDomain d ON d.DomainId = aj.DomainId
+    WHERE o.OrganizationCode = N'PPO'
+      AND d.DomainCode = N'COUNTER_TERROR'
+)
+    INSERT INTO governance.AuthorityJurisdiction (OrganizationId, DomainId, ResponsibilityName, ResponsibilityDetails)
+    SELECT o.OrganizationId, d.DomainId, N'تحقيق وادعاء', N'اختصاص الإشراف على التحقيق والتصرف في ملف القضية والإحالة للمحكمة'
+    FROM core.Organization o
+    CROSS JOIN governance.NationalSecurityDomain d
+    WHERE o.OrganizationCode = N'PPO'
+      AND d.DomainCode = N'COUNTER_TERROR';
+
+IF NOT EXISTS (
+    SELECT 1
+    FROM governance.AuthorityJurisdiction aj
+    JOIN core.Organization o ON o.OrganizationId = aj.OrganizationId
+    JOIN governance.NationalSecurityDomain d ON d.DomainId = aj.DomainId
+    WHERE o.OrganizationCode = N'PRS'
+      AND d.DomainCode = N'COUNTER_TERROR'
+)
+    INSERT INTO governance.AuthorityJurisdiction (OrganizationId, DomainId, ResponsibilityName, ResponsibilityDetails)
+    SELECT o.OrganizationId, d.DomainId, N'إيداع وتنفيذ', N'اختصاص تنفيذ أوامر الإيداع والحبس وتنفيذ الأحكام السالبة للحرية'
+    FROM core.Organization o
+    CROSS JOIN governance.NationalSecurityDomain d
+    WHERE o.OrganizationCode = N'PRS'
+      AND d.DomainCode = N'COUNTER_TERROR';
 GO
 
 -- Role-Permission mapping (RBAC baseline)
