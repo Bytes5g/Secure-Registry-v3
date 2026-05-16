@@ -55,7 +55,7 @@ CREATE TABLE governance.LegalInstrument (
     CONSTRAINT FK_governance_LegalInstrument_Type FOREIGN KEY (LegalInstrumentTypeId) REFERENCES governance.LegalInstrumentType(LegalInstrumentTypeId),
     CONSTRAINT FK_governance_LegalInstrument_Authority FOREIGN KEY (IssuingAuthorityId) REFERENCES core.Organization(OrganizationId),
     CONSTRAINT UQ_governance_LegalInstrument_Type_Number UNIQUE (LegalInstrumentTypeId, InstrumentNumber),
-    CONSTRAINT CK_governance_LegalInstrument_DateRange CHECK (EffectiveTo IS NULL OR EffectiveFrom IS NULL OR EffectiveTo >= EffectiveFrom)
+    CONSTRAINT CK_governance_LegalInstrument_DateRange CHECK (EffectiveTo IS NULL OR (EffectiveFrom IS NOT NULL AND EffectiveTo >= EffectiveFrom))
 );
 GO
 
@@ -82,7 +82,7 @@ CREATE TABLE governance.AuthorityJurisdiction (
     CONSTRAINT FK_governance_AuthorityJurisdiction_Organization FOREIGN KEY (OrganizationId) REFERENCES core.Organization(OrganizationId),
     CONSTRAINT FK_governance_AuthorityJurisdiction_Domain FOREIGN KEY (DomainId) REFERENCES governance.NationalSecurityDomain(DomainId),
     CONSTRAINT FK_governance_AuthorityJurisdiction_LegalArticle FOREIGN KEY (LegalArticleId) REFERENCES governance.LegalArticle(LegalArticleId),
-    CONSTRAINT CK_governance_AuthorityJurisdiction_DateRange CHECK (EffectiveTo IS NULL OR EffectiveFrom IS NULL OR EffectiveTo >= EffectiveFrom)
+    CONSTRAINT CK_governance_AuthorityJurisdiction_DateRange CHECK (EffectiveTo IS NULL OR (EffectiveFrom IS NOT NULL AND EffectiveTo >= EffectiveFrom))
 );
 GO
 

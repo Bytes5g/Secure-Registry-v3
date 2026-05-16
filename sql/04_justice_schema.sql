@@ -11,7 +11,7 @@ CREATE TABLE justice.CaseFile (
     CONSTRAINT FK_justice_CaseFile_Incident FOREIGN KEY (IncidentId) REFERENCES enforcement.Incident(IncidentId),
     CONSTRAINT FK_justice_CaseFile_Plaintiff FOREIGN KEY (PlaintiffPersonId) REFERENCES core.Person(PersonId),
     CONSTRAINT FK_justice_CaseFile_Defendant FOREIGN KEY (DefendantPersonId) REFERENCES core.Person(PersonId),
-    CONSTRAINT CK_justice_CaseFile_DateRange CHECK (ClosedAt IS NULL OR ClosedAt >= OpenedAt),
+    CONSTRAINT CK_justice_CaseFile_DateRange CHECK (ClosedAt IS NULL OR (OpenedAt IS NOT NULL AND ClosedAt >= OpenedAt)),
     CONSTRAINT CK_justice_CaseFile_Status CHECK (Status IN (N'Open', N'InTrial', N'Closed', N'Appealed'))
 );
 GO

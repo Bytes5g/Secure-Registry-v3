@@ -42,7 +42,7 @@ CREATE TABLE core.MasterNameRecord (
     EffectiveFrom DATETIME2(3) NOT NULL CONSTRAINT DF_core_MasterNameRecord_EffectiveFrom DEFAULT SYSUTCDATETIME(),
     EffectiveTo DATETIME2(3) NULL,
     CONSTRAINT FK_core_MasterNameRecord_Person FOREIGN KEY (PersonId) REFERENCES core.Person(PersonId),
-    CONSTRAINT CK_core_MasterNameRecord_DateRange CHECK (EffectiveTo IS NULL OR EffectiveTo >= EffectiveFrom)
+    CONSTRAINT CK_core_MasterNameRecord_DateRange CHECK (EffectiveTo IS NULL OR (EffectiveFrom IS NOT NULL AND EffectiveTo >= EffectiveFrom))
 );
 GO
 

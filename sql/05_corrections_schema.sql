@@ -56,7 +56,7 @@ CREATE TABLE corrections.Booking (
     CONSTRAINT FK_corrections_Booking_InmateProfile FOREIGN KEY (InmateProfileId) REFERENCES corrections.InmateProfile(InmateProfileId),
     CONSTRAINT FK_corrections_Booking_CaseFile FOREIGN KEY (CaseFileId) REFERENCES justice.CaseFile(CaseFileId),
     CONSTRAINT FK_corrections_Booking_HousingUnit FOREIGN KEY (HousingUnitId) REFERENCES corrections.HousingUnit(HousingUnitId),
-    CONSTRAINT CK_corrections_Booking_DateRange CHECK (ReleasedAt IS NULL OR ReleasedAt >= BookedAt),
+    CONSTRAINT CK_corrections_Booking_DateRange CHECK (ReleasedAt IS NULL OR (BookedAt IS NOT NULL AND ReleasedAt >= BookedAt)),
     CONSTRAINT CK_corrections_Booking_Status CHECK (BookingStatus IN (N'Booked', N'Transferred', N'Released'))
 );
 GO
