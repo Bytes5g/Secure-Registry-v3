@@ -29,6 +29,8 @@ CREATE TABLE security.UserAccount (
     UserAccountId BIGINT IDENTITY(1,1) PRIMARY KEY,
     PersonId BIGINT NOT NULL,
     Username NVARCHAR(128) NOT NULL,
+    PasswordHashAlgorithm NVARCHAR(32) NOT NULL CONSTRAINT DF_security_UserAccount_PasswordHashAlgorithm DEFAULT N'argon2id',
+    PasswordSalt NVARCHAR(256) NOT NULL,
     PasswordHash NVARCHAR(512) NOT NULL,
     IsActive BIT NOT NULL CONSTRAINT DF_security_UserAccount_IsActive DEFAULT 1,
     LastLoginAt DATETIME2(3) NULL,

@@ -60,3 +60,7 @@ CREATE TABLE corrections.Booking (
     CONSTRAINT CK_corrections_Booking_Status CHECK (BookingStatus IN (N'Booked', N'Transferred', N'Released'))
 );
 GO
+
+CREATE INDEX IX_corrections_Booking_BookedAt_ReleasedAt
+    ON corrections.Booking(BookedAt, ReleasedAt);
+GO

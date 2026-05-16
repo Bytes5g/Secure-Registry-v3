@@ -47,7 +47,7 @@ CREATE TABLE justice.CaseOutcome (
     CaseOutcomeId BIGINT IDENTITY(1,1) PRIMARY KEY,
     CaseFileId BIGINT NOT NULL,
     OutcomeStatus NVARCHAR(32) NOT NULL,
-    OutcomeDate DATE NOT NULL,
+    OutcomeDate DATETIME2(3) NOT NULL,
     OutcomeDetails NVARCHAR(MAX) NULL,
     CONSTRAINT FK_justice_CaseOutcome_CaseFile FOREIGN KEY (CaseFileId) REFERENCES justice.CaseFile(CaseFileId),
     CONSTRAINT UQ_justice_CaseOutcome_CaseFile UNIQUE (CaseFileId),

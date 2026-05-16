@@ -26,7 +26,9 @@ CREATE TABLE core.Location (
     GeoLat DECIMAL(9,6) NULL,
     GeoLon DECIMAL(9,6) NULL,
     CreatedAt DATETIME2(3) NOT NULL CONSTRAINT DF_core_Location_CreatedAt DEFAULT SYSUTCDATETIME(),
-    CONSTRAINT UQ_core_Location_ExternalRef UNIQUE (LocationExternalRef)
+    CONSTRAINT UQ_core_Location_ExternalRef UNIQUE (LocationExternalRef),
+    CONSTRAINT CK_core_Location_GeoLat CHECK (GeoLat IS NULL OR (GeoLat BETWEEN -90 AND 90)),
+    CONSTRAINT CK_core_Location_GeoLon CHECK (GeoLon IS NULL OR (GeoLon BETWEEN -180 AND 180))
 );
 GO
 

@@ -22,7 +22,7 @@
 خصائص الجودة:
 - `UNIQUE` على `NationalId` و`LocationExternalRef`
 - فهرس مركب يمنع تكرار الاسم/تاريخ الميلاد
-- `CHECK` لقيم الجنس والاسم الرئيسي
+- `CHECK` لقيم الجنس والاسم الرئيسي وصحة نطاق الإحداثيات الجغرافية (Latitude/Longitude)
 
 ## 2) Security Schema (`security`)
 
@@ -39,6 +39,7 @@
 - نموذج RBAC كامل بعلاقات many-to-many
 - ربط المستخدم بالشخص في `core.Person`
 - منع تكرار أسماء المستخدمين والأدوار والصلاحيات
+- دعم تخزين بيانات المصادقة بشكل أكثر أمانًا عبر `PasswordHashAlgorithm` و`PasswordSalt` بجانب `PasswordHash`
 
 ## 3) Enforcement Schema (`enforcement`)
 
@@ -108,4 +109,3 @@
 - `sql/04_justice_schema.sql`
 - `sql/05_corrections_schema.sql`
 - `sql/99_all_in_one.sql`
-

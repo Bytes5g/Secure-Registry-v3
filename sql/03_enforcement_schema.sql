@@ -43,7 +43,8 @@ CREATE TABLE enforcement.DigitalEvidence (
     CONSTRAINT FK_enforcement_DigitalEvidence_Incident FOREIGN KEY (IncidentId) REFERENCES enforcement.Incident(IncidentId),
     CONSTRAINT FK_enforcement_DigitalEvidence_Camera FOREIGN KEY (CameraId) REFERENCES security.Camera(CameraId),
     CONSTRAINT FK_enforcement_DigitalEvidence_CollectedBy FOREIGN KEY (CollectedByPersonId) REFERENCES core.Person(PersonId),
-    CONSTRAINT UQ_enforcement_DigitalEvidence_FileHash UNIQUE (FileHashSHA256)
+    CONSTRAINT UQ_enforcement_DigitalEvidence_FileHash UNIQUE (FileHashSHA256),
+    CONSTRAINT CK_enforcement_DigitalEvidence_FileHashSHA256_Hex CHECK (FileHashSHA256 NOT LIKE '%[^0-9A-Fa-f]%')
 );
 GO
 
