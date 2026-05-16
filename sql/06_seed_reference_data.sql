@@ -4,6 +4,7 @@ This script is idempotent and safe to re-run.
 */
 
 -- Risk levels (Corrections)
+-- Priority uses 1-10 scale (higher value = higher risk severity).
 IF NOT EXISTS (SELECT 1 FROM corrections.RiskLevel WHERE RiskCode = N'LOW')
     INSERT INTO corrections.RiskLevel (RiskCode, RiskName, Priority) VALUES (N'LOW', N'Low Risk', 3);
 
@@ -60,6 +61,7 @@ GO
 
 -- Role-Permission mapping (RBAC baseline)
 DECLARE @RolePermissionSeed TABLE (
+    -- Keep NVARCHAR lengths aligned with security.Role.RoleName and security.Permission.PermissionName.
     RoleName NVARCHAR(128) NOT NULL,
     PermissionName NVARCHAR(128) NOT NULL,
     PRIMARY KEY (RoleName, PermissionName)
