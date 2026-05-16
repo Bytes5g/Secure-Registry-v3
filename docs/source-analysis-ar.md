@@ -24,6 +24,13 @@
 | JumpServer | RBAC وإدارة الصلاحيات | `security.Role`, `security.Permission`, `security.RolePermission`, `security.UserRole` |
 | VibeNVR / Shinobi CE | نمذجة الأجهزة/الكاميرات/الأحداث | `security.Device`, `security.Camera`, `security.SecurityEvent` |
 
+## التحسينات المستخلصة بعد مراجعة Secure-Registry-v2-mssqlzip
+
+- تم تفادي تكرار ما هو موجود في v2 (واجهات/UI Registry/Graph triggers) والتركيز على ما يخدم نطاق v3 مباشرة.
+- تمت إضافة قاموس إجراءات موحد داخل v3 باسم `security.ActionType` كنقطة تأسيس حوكمية مستوحاة من مبدأ `sys_action_types` في v2.
+- تمت إضافة تعبئة مرجعية لهذه الإجراءات ضمن `sql/06_seed_reference_data.sql` بصيغة idempotent لضمان قابلية إعادة التشغيل.
+- تم فصل تحليل المقارنة مع v2 في مستند مستقل لتوضيح ما تم اعتماده وما تم استبعاده منطقيًا.
+
 ## ترتيب البناء المنطقي (Dependency-First)
 
 الترتيب التنفيذي المقترح داخل SQL Server:

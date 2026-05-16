@@ -32,6 +32,7 @@
 
 الجداول:
 - `security.Role`, `security.Permission`, `security.RolePermission`
+- `security.ActionType` (قاموس أفعال قياسي لإدارة الإجراءات)
 - `security.UserAccount`, `security.UserRole`
 - `security.Device`, `security.Camera`, `security.SecurityEvent`
 
@@ -39,6 +40,7 @@
 - نموذج RBAC كامل بعلاقات many-to-many
 - ربط المستخدم بالشخص في `core.Person`
 - منع تكرار أسماء المستخدمين والأدوار والصلاحيات
+- توحيد قاموس الإجراءات عبر أكواد مستقرة (`open`, `view`, `create`, `update`, ...)
 - دعم تخزين بيانات المصادقة بشكل أكثر أمانًا عبر `PasswordHashAlgorithm` و`PasswordSalt` بجانب `PasswordHash`
 
 ## 3) Enforcement Schema (`enforcement`)
@@ -116,3 +118,4 @@
 تم توفير ملف تحليل مستقل يربط كل مشروع مرجعي بالنمط المطبق فعليًا داخل قاعدة البيانات:
 
 - `docs/source-analysis-ar.md`
+- `docs/v2-gap-analysis-ar.md`

@@ -15,6 +15,17 @@ CREATE TABLE security.Permission (
 );
 GO
 
+CREATE TABLE security.ActionType (
+    ActionTypeId BIGINT IDENTITY(1,1) PRIMARY KEY,
+    ActionCode NVARCHAR(64) NOT NULL,
+    ActionNameAr NVARCHAR(128) NOT NULL,
+    ActionNameEn NVARCHAR(128) NULL,
+    SortOrder INT NOT NULL CONSTRAINT DF_security_ActionType_SortOrder DEFAULT 0,
+    IsActive BIT NOT NULL CONSTRAINT DF_security_ActionType_IsActive DEFAULT 1,
+    CONSTRAINT UQ_security_ActionType_ActionCode UNIQUE (ActionCode)
+);
+GO
+
 CREATE TABLE security.RolePermission (
     RoleId BIGINT NOT NULL,
     PermissionId BIGINT NOT NULL,

@@ -59,6 +59,40 @@ IF NOT EXISTS (SELECT 1 FROM security.Permission WHERE PermissionName = N'securi
     VALUES (N'security.monitor', N'Monitor devices, cameras, and security events');
 GO
 
+-- Action dictionary baseline (inspired by v2 sys_action_types governance pattern)
+IF NOT EXISTS (SELECT 1 FROM security.ActionType WHERE ActionCode = N'open')
+    INSERT INTO security.ActionType (ActionCode, ActionNameAr, ActionNameEn, SortOrder)
+    VALUES (N'open', N'فتح', N'Open', 10);
+
+IF NOT EXISTS (SELECT 1 FROM security.ActionType WHERE ActionCode = N'view')
+    INSERT INTO security.ActionType (ActionCode, ActionNameAr, ActionNameEn, SortOrder)
+    VALUES (N'view', N'عرض', N'View', 20);
+
+IF NOT EXISTS (SELECT 1 FROM security.ActionType WHERE ActionCode = N'create')
+    INSERT INTO security.ActionType (ActionCode, ActionNameAr, ActionNameEn, SortOrder)
+    VALUES (N'create', N'إضافة', N'Create', 30);
+
+IF NOT EXISTS (SELECT 1 FROM security.ActionType WHERE ActionCode = N'update')
+    INSERT INTO security.ActionType (ActionCode, ActionNameAr, ActionNameEn, SortOrder)
+    VALUES (N'update', N'تعديل', N'Update', 40);
+
+IF NOT EXISTS (SELECT 1 FROM security.ActionType WHERE ActionCode = N'approve')
+    INSERT INTO security.ActionType (ActionCode, ActionNameAr, ActionNameEn, SortOrder)
+    VALUES (N'approve', N'اعتماد', N'Approve', 50);
+
+IF NOT EXISTS (SELECT 1 FROM security.ActionType WHERE ActionCode = N'reject')
+    INSERT INTO security.ActionType (ActionCode, ActionNameAr, ActionNameEn, SortOrder)
+    VALUES (N'reject', N'رفض', N'Reject', 60);
+
+IF NOT EXISTS (SELECT 1 FROM security.ActionType WHERE ActionCode = N'export')
+    INSERT INTO security.ActionType (ActionCode, ActionNameAr, ActionNameEn, SortOrder)
+    VALUES (N'export', N'تصدير', N'Export', 70);
+
+IF NOT EXISTS (SELECT 1 FROM security.ActionType WHERE ActionCode = N'restore')
+    INSERT INTO security.ActionType (ActionCode, ActionNameAr, ActionNameEn, SortOrder)
+    VALUES (N'restore', N'استعادة', N'Restore', 80);
+GO
+
 -- Role-Permission mapping (RBAC baseline)
 DECLARE @RolePermissionSeed TABLE (
     -- Keep NVARCHAR lengths aligned with security.Role.RoleName and security.Permission.PermissionName.

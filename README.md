@@ -6,6 +6,7 @@
 
 - توثيق الهيكلية: `/docs/sqlserver-architecture-ar.md`
 - توثيق تحليل المصادر المرجعية: `/docs/source-analysis-ar.md`
+- توثيق تحليل الفجوات مقابل v2: `/docs/v2-gap-analysis-ar.md`
 - مخططات SQL:
   - `/sql/00_create_schemas.sql`
   - `/sql/01_core_schema.sql`
