@@ -59,43 +59,37 @@ IF NOT EXISTS (SELECT 1 FROM security.Permission WHERE PermissionName = N'securi
 GO
 
 -- Role-Permission mapping (RBAC baseline)
-INSERT INTO security.RolePermission (RoleId, PermissionId)
-SELECT r.RoleId, p.PermissionId
-FROM security.Role r
-JOIN security.Permission p ON p.PermissionName IN (N'incident.read', N'incident.write', N'evidence.manage', N'case.manage', N'booking.manage', N'security.monitor')
-WHERE r.RoleName = N'SystemAdmin'
-  AND NOT EXISTS (
-      SELECT 1 FROM security.RolePermission rp
-      WHERE rp.RoleId = r.RoleId AND rp.PermissionId = p.PermissionId
-  );
+DECLARE @RolePermissionSeed TABLE (
+    RoleName NVARCHAR(128) NOT NULL,
+    PermissionName NVARCHAR(128) NOT NULL,
+    PRIMARY KEY (RoleName, PermissionName)
+);
+
+INSERT INTO @RolePermissionSeed (RoleName, PermissionName)
+VALUES
+    (N'SystemAdmin', N'incident.read'),
+    (N'SystemAdmin', N'incident.write'),
+    (N'SystemAdmin', N'evidence.manage'),
+    (N'SystemAdmin', N'case.manage'),
+    (N'SystemAdmin', N'booking.manage'),
+    (N'SystemAdmin', N'security.monitor'),
+    (N'Investigator', N'incident.read'),
+    (N'Investigator', N'incident.write'),
+    (N'Investigator', N'evidence.manage'),
+    (N'CaseOfficer', N'incident.read'),
+    (N'CaseOfficer', N'case.manage'),
+    (N'CorrectionsOfficer', N'booking.manage'),
+    (N'CorrectionsOfficer', N'incident.read');
 
 INSERT INTO security.RolePermission (RoleId, PermissionId)
 SELECT r.RoleId, p.PermissionId
-FROM security.Role r
-JOIN security.Permission p ON p.PermissionName IN (N'incident.read', N'incident.write', N'evidence.manage')
-WHERE r.RoleName = N'Investigator'
-  AND NOT EXISTS (
-      SELECT 1 FROM security.RolePermission rp
-      WHERE rp.RoleId = r.RoleId AND rp.PermissionId = p.PermissionId
-  );
-
-INSERT INTO security.RolePermission (RoleId, PermissionId)
-SELECT r.RoleId, p.PermissionId
-FROM security.Role r
-JOIN security.Permission p ON p.PermissionName IN (N'incident.read', N'case.manage')
-WHERE r.RoleName = N'CaseOfficer'
-  AND NOT EXISTS (
-      SELECT 1 FROM security.RolePermission rp
-      WHERE rp.RoleId = r.RoleId AND rp.PermissionId = p.PermissionId
-  );
-
-INSERT INTO security.RolePermission (RoleId, PermissionId)
-SELECT r.RoleId, p.PermissionId
-FROM security.Role r
-JOIN security.Permission p ON p.PermissionName IN (N'booking.manage', N'incident.read')
-WHERE r.RoleName = N'CorrectionsOfficer'
-  AND NOT EXISTS (
-      SELECT 1 FROM security.RolePermission rp
-      WHERE rp.RoleId = r.RoleId AND rp.PermissionId = p.PermissionId
-  );
+FROM @RolePermissionSeed s
+JOIN security.Role r ON r.RoleName = s.RoleName
+JOIN security.Permission p ON p.PermissionName = s.PermissionName
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM security.RolePermission rp
+    WHERE rp.RoleId = r.RoleId
+      AND rp.PermissionId = p.PermissionId
+);
 GO
