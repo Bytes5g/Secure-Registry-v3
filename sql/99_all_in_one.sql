@@ -4,3 +4,4 @@
 :r 03_enforcement_schema.sql
 :r 04_justice_schema.sql
 :r 05_corrections_schema.sql
+:r 06_seed_reference_data.sql

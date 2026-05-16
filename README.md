@@ -5,6 +5,7 @@
 ## المحتويات
 
 - توثيق الهيكلية: `/docs/sqlserver-architecture-ar.md`
+- توثيق تحليل المصادر المرجعية: `/docs/source-analysis-ar.md`
 - مخططات SQL:
   - `/sql/00_create_schemas.sql`
   - `/sql/01_core_schema.sql`
@@ -12,4 +13,5 @@
   - `/sql/03_enforcement_schema.sql`
   - `/sql/04_justice_schema.sql`
   - `/sql/05_corrections_schema.sql`
+  - `/sql/06_seed_reference_data.sql`
   - `/sql/99_all_in_one.sql`

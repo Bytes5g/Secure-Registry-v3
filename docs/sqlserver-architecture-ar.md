@@ -108,4 +108,11 @@
 - `sql/03_enforcement_schema.sql`
 - `sql/04_justice_schema.sql`
 - `sql/05_corrections_schema.sql`
+- `sql/06_seed_reference_data.sql`
 - `sql/99_all_in_one.sql`
+
+## التحليل التفصيلي للمصادر
+
+تم توفير ملف تحليل مستقل يربط كل مشروع مرجعي بالنمط المطبق فعليًا داخل قاعدة البيانات:
+
+- `docs/source-analysis-ar.md`
